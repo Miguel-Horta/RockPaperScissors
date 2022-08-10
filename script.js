@@ -10,6 +10,7 @@ function getComputerChoice(){
 let index = "tie"
 let playerRoundsWon = 0
 let compRoundsWon = 0
+
 function playRound (playerSelection, computerSelection){
 
     let loser, winner
@@ -18,7 +19,7 @@ function playRound (playerSelection, computerSelection){
     if (fixedPlayerSelection === "rock" && computerSelection === "Rock" ||
         fixedPlayerSelection === "paper" && computerSelection === "Paper" ||
         fixedPlayerSelection === "scissors" && computerSelection === "Scissors"){
-        const tie = "It's a tie, try again"
+        const tie = `It's a tie, you both chose ${fixedPlayerSelection}`
         index = "tie"
         return tie 
     }
@@ -64,8 +65,10 @@ function game(){
     for(let i = 0; i<5; i++){
         const compChoice = getComputerChoice()
         const playerinput = prompt("Write rock, paper or scissors")
-        const round1 = playRound(playerinput,compChoice)
-        console.log(round1)
+        const result = playRound(playerinput,compChoice)
+        const message = getMessageFromResult(result)
+        console.log(message)
+        
         
         if(index === "win"){
             playerRoundsWon++
@@ -86,6 +89,10 @@ function game(){
         alert("You lost :(")
     }
 
+}
+
+function getMessageFromResult(result){
+    return result
 }
 
 const play = game();
