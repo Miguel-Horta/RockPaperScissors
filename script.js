@@ -1,5 +1,11 @@
 //First Function. It gets a random choice from the computer 
 //and returns it
+function TestsFunction() {
+    var T = document.getElementById("game");
+    var B = document.getElementById("play");
+    T.style.display = "flex";  // <-- Set it to block
+    B.style.display = "none";
+}
 
 function getComputerChoice(){
     const options = ["Rock","Paper","Scissors"]
@@ -7,12 +13,19 @@ function getComputerChoice(){
     return options[choice]
 }
 
-let playerRoundsWon = 0
-let compRoundsWon = 0
+let playerRoundsWon = 0, compRoundsWon = 0;
+let result;
+const container = document.querySelector('#container');
+const results = document.createElement('div');
+const points = document.createElement('div');
+container.appendChild(points);
+container.appendChild(results);
+const rock = document.getElementById("rock");
+const buttons = document.querySelectorAll('button');
+
 
 function playRound (playerSelection, computerSelection){
 
-    let loser, winner
     let fixedPlayerSelection = playerSelection.toLowerCase()
     
     if (fixedPlayerSelection === "rock" && computerSelection === "Rock" ||
@@ -48,43 +61,52 @@ function playRound (playerSelection, computerSelection){
 
 function getMessageFromResult(result, playerChoice, compChoice){
     if (result === "tie") {
-        return `You tied, both chose ${playerChoice}`
+        return `It's a tie, both chose ${playerChoice}`
     } else if (result === "lose") {
-        return `You lose, ${compChoice} beats ${playerChoice}`
+        return `You lose this round, ${compChoice} beats ${playerChoice}`
     } else if (result === "win") {
-        return `You win, ${playerChoice} beats ${compChoice}`
+        return `You win this round, ${playerChoice} beats ${compChoice}`
     }
-    return 'Invalid result'
+    //return 'Invalid result'
 }
 
-function game(){
-    for(let i = 0; i<5; i++){
-        const compChoice = getComputerChoice()
-        const playerinput = prompt("Write rock, paper or scissors")
-        const result = playRound(playerinput,compChoice)
-        const message = getMessageFromResult(result, playerinput, compChoice)
-        console.log(message)
-        
-        
-        if(result === "win"){
-            playerRoundsWon++
-        }
-        else if (result === "lose"){
-            compRoundsWon++
-        }
-        else if(result === "tie"){
-            i--
-        }
-        console.log(`Your points:  ${playerRoundsWon} `)
-        console.log(`Computer points:  ${compRoundsWon} `)
-    }
-    if (playerRoundsWon > compRoundsWon){
-        alert("Congratulations! You Won")
-    }
-    else {
-        alert("You lost :(")
-    }
 
-}
+  buttons.forEach((button) => {
 
-const play = game();
+    button.addEventListener('click', () => {
+
+        result = playRound(button.id,getComputerChoice());
+        results.classList.add('results');
+        
+        if(playerRoundsWon !== 5 && compRoundsWon !== 5){
+
+            if(result === 'win'){
+
+                playerRoundsWon++;
+
+                if(playerRoundsWon === 5)
+                {
+                    alert("Congratulations! You Won")
+                }
+            }
+            else if(result === 'lose'){
+
+                compRoundsWon++;
+
+                if(compRoundsWon === 5){
+        
+                    alert("You lost :(")
+                }
+            }
+            results.textContent = getMessageFromResult(result,button.id,getComputerChoice());
+            points.textContent = `Your points:  ${playerRoundsWon} ` 
+            + `Computer points:  ${compRoundsWon} `;
+       
+        }
+          
+    });
+   
+  });
+
+
+ 

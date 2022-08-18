@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock, Paper, Scissors</title>
 </head>
 <body>
-    <script src="script.js"></script>
+   <div id="main">
+        <img src="images/pngfind.com-click-here-button-transparent-2200541.png" id ="play" onclick="TestsFunction()">
+        <div id="game" style="display:none">
+            <h1>Welcome to Rock, Paper, Scissors (The original game)</h1>
+            <p>Click a button</p>
+            <button id="rock"> Rock </button>
+            <button id="paper"> Paper </button>
+            <button id="scissors"> Scissors </button>
+            <div id="container"></div>
+        </div>
+    </div>
 </body>
 </html>
