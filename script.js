@@ -69,13 +69,13 @@ function getMessageFromResult(result, playerChoice, compChoice){
     }
     //return 'Invalid result'
 }
-
+let pcResult;
 
   buttons.forEach((button) => {
 
     button.addEventListener('click', () => {
-
-        result = playRound(button.id,getComputerChoice());
+        pcResult = getComputerChoice();
+        result = playRound(button.id,pcResult);
         results.classList.add('results');
         
         if(playerRoundsWon !== 5 && compRoundsWon !== 5){
@@ -98,7 +98,7 @@ function getMessageFromResult(result, playerChoice, compChoice){
                     alert("You lost :(")
                 }
             }
-            results.textContent = getMessageFromResult(result,button.id,getComputerChoice());
+            results.textContent = getMessageFromResult(result,button.id,pcResult);
             points.textContent = `Your points:  ${playerRoundsWon} ` 
             + `Computer points:  ${compRoundsWon} `;
        
