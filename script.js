@@ -1,5 +1,6 @@
 //First Function. It gets a random choice from the computer 
 //and returns it
+
 function TestsFunction() {
     var T = document.getElementById("game");
     var B = document.getElementById("play");
@@ -8,55 +9,51 @@ function TestsFunction() {
 }
 
 function getComputerChoice(){
-    const options = ["Rock","Paper","Scissors"]
+    const options = ["rock","paper","scissors"]
     let choice = Math.floor(Math.random() * 3)
     return options[choice]
 }
 
 let playerRoundsWon = 0, compRoundsWon = 0;
-let result;
+const userPoints = document.getElementById('userpoints');
+const compPoints = document.getElementById('computerpoints');
 const container = document.querySelector('#container');
 const results = document.createElement('div');
 const points = document.createElement('div');
+const buttons = document.querySelectorAll('button');
 container.appendChild(points);
 container.appendChild(results);
-const rock = document.getElementById("rock");
-const buttons = document.querySelectorAll('button');
+results.classList.add('results');
 
+function displayWinner(didUserWin){
+    const res = didUserWin ? "Congratulations! You Won" : "You lost :(";
+    setTimeout(() => {
+        alert(res);
+        const playAgain = confirm("Do you want to play again?");
+        if(playAgain === true){
+            playerRoundsWon = 0;
+            compRoundsWon = 0;
+            userPoints.innerHTML = playerRoundsWon;
+            compPoints.innerHTML = compRoundsWon;
+            results.textContent = "";
+    }
+    },0);
+}
 
 function playRound (playerSelection, computerSelection){
-
-    let fixedPlayerSelection = playerSelection.toLowerCase()
     
-    if (fixedPlayerSelection === "rock" && computerSelection === "Rock" ||
-        fixedPlayerSelection === "paper" && computerSelection === "Paper" ||
-        fixedPlayerSelection === "scissors" && computerSelection === "Scissors"){
+    if (playerSelection === computerSelection){
         return 'tie'
     }
-    if (fixedPlayerSelection === "rock"){
-        if (computerSelection === "Paper"){
-            return 'lose'
-        }
-        else if(computerSelection === "Scissors"){
-            return 'win'
-        }
+    if((playerSelection === "rock" && computerSelection === "paper") || 
+    (playerSelection === "paper" && computerSelection === "scissors") ||
+    (playerSelection === "scissors" && computerSelection === "rock")){
+        return 'lose';
     }
-    if (fixedPlayerSelection === "paper"){
-        if (computerSelection === "Scissors"){
-            return 'lose'
-        }
-        else if(computerSelection === "Rock"){
-            return 'win'
-        }
+    else {
+        return 'win';
     }
-    if (fixedPlayerSelection === "scissors"){
-        if (computerSelection === "Rock"){
-            return 'lose'
-        }
-        else if(computerSelection === "Paper"){
-            return 'win'
-        }
-    }
+
 }
 
 function getMessageFromResult(result, playerChoice, compChoice){
@@ -67,46 +64,33 @@ function getMessageFromResult(result, playerChoice, compChoice){
     } else if (result === "win") {
         return `You win this round, ${playerChoice} beats ${compChoice}`
     }
-    //return 'Invalid result'
 }
-let pcResult;
 
   buttons.forEach((button) => {
 
     button.addEventListener('click', () => {
-        pcResult = getComputerChoice();
-        result = playRound(button.id,pcResult);
-        results.classList.add('results');
+
+        const pcResult = getComputerChoice();
+        const result = playRound(button.id,pcResult);
         
         if(playerRoundsWon !== 5 && compRoundsWon !== 5){
 
             if(result === 'win'){
-
                 playerRoundsWon++;
-
-                if(playerRoundsWon === 5)
-                {
-                    alert("Congratulations! You Won")
-                }
             }
             else if(result === 'lose'){
-
                 compRoundsWon++;
-
-                if(compRoundsWon === 5){
-        
-                    alert("You lost :(")
-                }
             }
             results.textContent = getMessageFromResult(result,button.id,pcResult);
-            points.textContent = `Your points:  ${playerRoundsWon} ` 
-            + `Computer points:  ${compRoundsWon} `;
-       
-        }
-          
+            userPoints.textContent = playerRoundsWon;
+            compPoints.textContent = compRoundsWon;
+            
+            if(playerRoundsWon === 5){
+                displayWinner(true);
+            }
+            if(compRoundsWon === 5){
+                displayWinner(false);
+            }
+        }        
     });
-   
   });
-
-
- 
